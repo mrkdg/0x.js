@@ -51,6 +51,9 @@ export class EventWatcher {
     }
     private async _pollForBlockchainEventsAsync(callback: EventWatcherCallback): Promise<void> {
         const pendingEvents = await this._getEventsAsync();
+        if (_.isUndefined(pendingEvents)) {
+            return;
+        }
         if (pendingEvents.length === 0) {
             // HACK: Sometimes when node rebuilds the pending block we get back the empty result.
             // We don't want to emit a lot of removal events and bring them back after a couple of miliseconds,
